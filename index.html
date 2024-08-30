@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter Ehsan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/reset.css">
+    <link rel="stylesheet" href="./style/main.css">
+
+</head>
+<body>
+
+    <main class="main" >
+
+        <section class="container" >
+
+            <h1 class="container__title" >Currency Converter</h1>
+            
+            <form id="converter-form" class="container__form form">
+                <div class="form-group">
+                    <labal for="amount" class="label">Amount</labal>
+                    <input type="text" name="amount" id="amount" value="1" class="input-amount" placeholder="0.00">
+                    <span id="validationMessage" class="validationMessage"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="from" class="label">From</label>
+                    <select name="from" id="from" class="select-currency" >
+                    </select>
+                    <span id="validationMessageFrom" class="validationMessage"></span>
+
+                </div>
+
+                
+                <button type="button" id="switchCurrency" class="switch btn" >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                    </svg>                                       
+                </button>
+
+                <div class="form-group">
+                    <label for="to"  class="label" >To</label>
+                    <select name="to" id="to" class="select-currency">
+                    </select>
+                    <span id="validationMessageTo" class="validationMessage"></span>
+
+                </div>
+
+                <button type="submit" class="btn submit">Convert</button>
+            </form>
+
+            <p class="result" id="result"></p>
+
+        </section>
+
+        <footer class="attribution">
+            Challenge by <a href="https://rirais.com/">Rira</a>. 
+            Coded by <a href="https://github.com/ehsanyaghoti">Ehsan yaghoti</a>.
+        </footer>
+
+    </main>
+    
+
+    <script src="./script/javascript/constants.js"></script>
+    <script src="./script/javascript/script.js"></script>
+</body>
+</html>
