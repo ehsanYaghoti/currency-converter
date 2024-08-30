@@ -4,9 +4,9 @@
 
 > Currency Converter is developed with pure html css typesctipt
 
-# Currency Converter
+# About
 
-The Currency Convertor app with pure html css and typescript that convert currencies and vice versa
+The Currency Convertor app that convert currencies and vice versa and show in arbitrary amount
 
 ## Welcome! 👋
 
