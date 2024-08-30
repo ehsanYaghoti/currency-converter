@@ -10,6 +10,10 @@ The Currency Convertor app that convert currencies and vice versa and show in ar
 
 you can change any code in typescript files then set command tsc in root directory
 
+## Deploy
+
+https://ehsanyaghoti.github.io/currency-converter/
+
 ## Preview
 
 ![Screenshot (112)](https://github.com/user-attachments/assets/2c70ea6f-9e96-4ff3-a197-afb7cf20fae7)
