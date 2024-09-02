@@ -43,9 +43,19 @@ currency_list.forEach((currency, index) => {
 function fetchData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch(API_URL);
+            let response = yield fetch(API_URL_2, {
+                cache: 'force-cache',
+                headers: {
+                    'Cache-Control': 'max-age=3600',
+                }
+            });
+            if (!response.ok) {
+                response = yield fetch(API_URL);
+                const json = yield response.json();
+                return json.rates;
+            }
             const json = yield response.json();
-            return json.rates;
+            return json.conversion_rates;
         }
         catch (error) {
             console.log(error);

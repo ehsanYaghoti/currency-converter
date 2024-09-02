@@ -148,4 +148,7 @@ const currency_list : string[][] = [
     ["ZWL", "Zimbabwean Dollar (2009)"]
 ];
 
-const API_URL = 'https://api.exchangerate-api.com/v4/latest/USD'
+const API_URL : string = 'https://api.exchangerate-api.com/v4/latest/USD'
+const API_URL_2 : string = 'https://v6.exchangerate-api.com/v6/a0fb2ec26c49b86c530024d6/latest/USD'
+
+

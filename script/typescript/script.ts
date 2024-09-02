@@ -46,18 +46,30 @@ document.getElementById('switchCurrency')?.addEventListener('click' , (e : Event
 
 })
 
-
 async function fetchData(){
     try {
 
-        const response = await fetch(API_URL)
-        const json = await response.json()
+        let response = await fetch(API_URL_2 , { 
+            cache : 'force-cache' , 
+            headers: {
+            'Cache-Control': 'max-age=3600',
+        }})
 
-        return json.rates    
+        if(!response.ok) {
+            response = await fetch(API_URL)
+            const json = await response.json()
+            return json.rates    
+        }
+
+        const json = await response.json()
+        return json.conversion_rates  
+
     } catch (error : any) {
         console.log(error)
         resultElement.classList.add('error')
         resultElement.innerHTML = 'there is some thing wrong with fetching data!!!'
+        
+        
     }
 }
 
