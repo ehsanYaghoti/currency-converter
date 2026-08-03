@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectBox from "./selectBox";
 
 export default function ConverterCard() {
   const [amount, setAmont] = useState("1");
-  const [result, setResult] = useState(12500.55);
-  const [originCC, setOriginCC] = useState("IRR");
-  const [destinationCC, setDestinationCC] = useState("USD");
+  const [result, setResult] = useState("");
+  const [originCC, setOriginCC] = useState("USD");
+  const [destinationCC, setDestinationCC] = useState("IRR");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setLoading(true);
+    if (!amountValidation()) {
+      setError("please inter valid amount");
+      return;
+    }
+
+    fetchData().then((resultFixed) => setResult(resultFixed as string));
+
+    setLoading(false);
+  }, []);
 
   const destinationCCHandler = (value: string) => {
     console.log(value);
@@ -21,14 +35,80 @@ export default function ConverterCard() {
     setDestinationCC(originCC);
   };
 
-  const handleSubmit = (
+  function amountValidation() {
+    return amount.length !== 0 && !isNaN(+amount);
+  }
+
+  async function fetchData() {
+    try {
+      let response = await fetch(
+        "https://v6.exchangerate-api.com/v6/a0fb2ec26c49b86c530024d6/latest/USD",
+        {
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "max-age=3600",
+          },
+        },
+      );
+
+      const json = await response.json();
+      const rates = json.conversion_rates;
+
+      const result = +amount * (rates[destinationCC] / rates[originCC]);
+
+      let resultFixed = `${1 * +result.toFixed(7).replace(/\.0+$/, "")}`;
+      resultFixed = resultFixed
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d)\.)/g, ",");
+
+      return resultFixed;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      if (typeof error === "string") setError(error);
+    }
+  }
+
+  const handleSubmit = async (
     e:
       | React.SubmitEvent<HTMLFormElement>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    const ratio = 2;
-    setResult(ratio * Number(amount));
+    setLoading(true);
+    if (!amountValidation()) {
+      setError("please inter valid amount");
+      setResult("");
+      setLoading(false);
+      return;
+    }
+
+    const resultFixed = (await fetchData()) as string;
+
+    setResult(resultFixed);
+    setLoading(false);
+  };
+
+  const inputHandler = async (
+    e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
+  ) => {
+    e.preventDefault();
+
+    setAmont(e.target.value);
+    setLoading(true);
+
+    console.log(amountValidation());
+    if (!amountValidation()) {
+      setError("please inter valid amount");
+      setLoading(false);
+      setResult("");
+      return;
+    }
+
+    const resultFixed = (await fetchData()) as string;
+
+    setResult(resultFixed);
+    setLoading(false);
   };
 
   return (
@@ -45,17 +125,23 @@ export default function ConverterCard() {
             type="number"
             inputMode="numeric"
             pattern="$/d+^"
+            minLength={2}
             min={0}
             name="amount"
             id="amount"
             placeholder="Enter from here.."
             className="border-b-2 border-black/10 outline-none px-1 py-2 text-slate-700 text-2xl font-medium invalid:border-red-500 peer "
             value={amount}
-            onChange={(e) => setAmont(e.target.value)}
+            onChange={(e) => inputHandler(e)}
           />
           <span className="  invisible  transition-all ease-in-out duration-100 peer-invalid:visible text-red-500 absolute -bottom-10 ">
             Enter only positive number inputs...
           </span>
+          {error.length !== 0 && (
+            <span className="transition-all ease-in-out duration-100  text-red-500 absolute -bottom-10 ">
+              {error}
+            </span>
+          )}
         </div>
 
         <div className="flex flex-col items-start gap-5 flex-1">
@@ -99,17 +185,40 @@ export default function ConverterCard() {
       </form>
 
       <div className="flex items-center justify-between w-full">
-        <p className="flex flex-col items-start gap-0.5">
-          <span className="text-base text-text-2">
-            {amount} {originCC.toUpperCase()} equals to
-          </span>
-          <span className="text-5xl font-semibold text-text-1">
-            {result.toFixed(2)} {destinationCC.toUpperCase()}
-          </span>
-        </p>
+        {loading ? (
+          <i className=" size-8 text-text-2 animate-spin flex items-center justify-center ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+              />
+            </svg>
+          </i>
+        ) : (
+          result.length !== 0 && (
+            <p className="flex flex-col items-start gap-0.5">
+              <span className="text-base text-text-2">
+                {amount} {originCC.toUpperCase()} equals to
+              </span>
+
+              <span className="text-5xl font-semibold text-text-1">
+                {result} {destinationCC.toUpperCase()}
+              </span>
+            </p>
+          )
+        )}
+
         <button
           onClick={(e) => handleSubmit(e)}
-          className="text-lg font-medium cursor-pointer text-text-4 hover:opacity-80 bg-primary/90 border border-primary px-4 py-2 w-36 h-10 rounded-md flex items-center justify-center"
+          className="text-lg font-medium self-end justify-self-end ml-auto cursor-pointer text-text-4 hover:opacity-80 bg-primary/90 border border-primary px-4 py-2 w-36 h-10 rounded-md flex items-center justify-center"
         >
           Convert
         </button>
