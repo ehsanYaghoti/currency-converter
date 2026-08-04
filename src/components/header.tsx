@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="w-full px-10 lg:px-36 py-4 h-18 border-b border-b-black/10 flex items-center justify-between ">
+    <header className="w-full px-4 md:px-10 lg:px-36 py-4 h-18 border-b border-b-black/10 flex items-center justify-between ">
       <h1 className="text-xl font-medium text-slate-700"><span className="text-primary" >Currency</span> Converter</h1>
 
       <a target="_blank" className="flex size-6 hover:opacity-50 text-slate-700 " href="https://github.com/ehsanYaghoti/currency-converter/">

@@ -39,7 +39,10 @@ export default function ConverterCard() {
     try {
       const rates = await fetchExchangeRates("USD");
 
-      const result = +body * (rates[destinationCC] / rates[originCC]);
+      const originalRate = rates[originCC]
+      const destinationRate  = rates[destinationCC]
+
+      const result = +body * (destinationRate / originalRate);
 
       setResult(numberFormatter(result));
 
@@ -78,10 +81,10 @@ export default function ConverterCard() {
     <section className="w-full bg-white  p-6 border rounded-lg flex flex-col gap-16 ">
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-5"
+        className="flex flex-col md:flex-row items-center md:items-end justify-between w-full gap-5"
       >
-        <div className="flex flex-col items-start gap-5 relative">
-          <label htmlFor="amount" className="text-xs text-slate-500">
+        <div className="flex flex-col items-start gap-5 relative w-full md:w-auto md:flex-1 ">
+          <label htmlFor="amount" className="text-xs text-slate-500 w-full">
             Amount
           </label>
           <input
@@ -92,7 +95,7 @@ export default function ConverterCard() {
             name="amount"
             id="amount"
             placeholder="Enter from here.."
-            className="border-b-2 border-black/10 outline-none px-1 py-2 text-slate-700 text-2xl font-medium invalid:border-red-500 peer "
+            className="border-b-2 border-black/10 outline-none px-1 py-2 w-full text-slate-700 text-base lg:text-lg font-medium invalid:border-red-500 peer "
             value={amount}
             onChange={(e) => setAmont(e.target.value)}
           />
@@ -113,7 +116,7 @@ export default function ConverterCard() {
         <button
           type="button"
           onClick={swaphandler}
-          className="border-2 bg-white cursor-pointer size-12 rounded-full border-primary text-primary hover:bg-primary hover:text-text-4 p-2.5 flex items-center justify-center"
+          className="border-2 bg-white cursor-pointer size-10 lg:size-12 rounded-full border-primary text-primary hover:bg-primary hover:text-text-4 p-2.5 flex items-center justify-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -143,16 +146,16 @@ export default function ConverterCard() {
         </div>
       </form>
 
-      <div className="flex items-center justify-between w-full h-18">
+      <div className="flex flex-col md:flex-row items-center gap-8 justify-between w-full md:h-18">
         {loading ? <LoadingSpinner /> : (
           result &&
           result.length !== 0 && (
-            <p className="flex flex-col items-start gap-0.5">
+            <p className="flex flex-col self-start items-start gap-0.5">
               <span className="text-base text-text-2">
-                {amount} {originCC.toUpperCase()} equals to
+                {amount} {originCC.toUpperCase()} Equals to
               </span>
 
-              <span className="text-4xl font-semibold text-slate-800">
+              <span className="text-xl md:text-4xl font-semibold text-slate-800">
                 <FormattedResult value={result} /> {destinationCC.toUpperCase()}
               </span>
             </p>
@@ -161,7 +164,7 @@ export default function ConverterCard() {
 
         <button
           onClick={(e) => handleSubmit(e)}
-          className="text-lg font-medium self-end justify-self-end ml-auto cursor-pointer text-text-4 hover:opacity-80 bg-primary/90 border border-primary px-4 py-2 w-36 h-10 rounded-md flex items-center justify-center"
+          className="text-lg font-medium ssjustify-self-end md:ml-auto cursor-pointer text-text-4 hover:opacity-80 bg-primary/90 border border-primary px-4 py-2 w-36 h-10 rounded-md flex items-center justify-center"
         >
           Convert
         </button>
