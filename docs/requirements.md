@@ -1,6 +1,7 @@
 # Requirements
 A currency converter app helps users understand how much money in one currency is worth when exchanged into another currency.
 
+optional requirements have *
 
 ## MVP Features
 
@@ -12,11 +13,11 @@ User should be able to:
 - Swap currencies
 
 requirements :
-1. Searchable dropdown
+1. Searchable dropdown*
 2. Currency name
 3. Currency code
-4. Currency symbol
-5. Country flag
+4. Currency symbol*
+5. Country flag*
 
 
 ### 2. Amount Input
@@ -31,7 +32,7 @@ Handle:
 
 1. Empty input
 2. Very large numbers
-3. Negative values
+3. Negative values*
 
 ### 3. Real-Time Conversion
 
@@ -40,9 +41,9 @@ Handle:
 ## User Experience Features
 
 1. currency Swap Button
-2. Recent Currency Pairs
-3. Favorite Currencies
-4. Currency Search
+2. Recent Currency Pairs*
+3. Favorite Currencies*
+4. Currency Search*
 
 ## Technical Features
 
@@ -61,6 +62,6 @@ Handle:
 
 ## Optional Features
 
-1. Multiple Currency Conversion
-2. Historical Exchange Rates
-3. Offline Support
+1. Multiple Currency Conversion*
+2. Historical Exchange Rates*
+3. Offline Support*
