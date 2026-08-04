@@ -71,11 +71,13 @@ Exchange rates are retrieved from [ExchangeRate-API](https://www.exchangerate-ap
 
 ## Screenshot
 
-![Screenshot (112)](https://github.com/user-attachments/assets/2c70ea6f-9e96-4ff3-a197-afb7cf20fae7)
+<img width="1920" height="880" alt="Screenshot 2026-08-04 224308" src="https://github.com/user-attachments/assets/fed080a4-a092-43c4-8772-c71e3f732f9e" />
+
+
 
 ## Future Improvements
 
-- Searchable selectbox with flags
+- Searchable select box with flags
 - Pin favourite options
 - Category popular options
 - Cache exchange rates
