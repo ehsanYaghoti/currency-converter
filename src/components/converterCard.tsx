@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SelectBox from "./selectBox";
+import SelectBox from "./selectbox";
 
 export default function ConverterCard() {
   const [amount, setAmont] = useState("1");
@@ -11,12 +11,14 @@ export default function ConverterCard() {
 
   useEffect(() => {
     setLoading(true);
-    if (!amountValidation()) {
-      setError("please inter valid amount");
+    if (!amountValidation(amount)) {
+      setError("please Enter valid amount");
       return;
+    } else {
+        setError("")
     }
 
-    fetchData().then((resultFixed) => setResult(resultFixed as string));
+    fetchData(amount).then((resultFixed) => setResult(resultFixed as string));
 
     setLoading(false);
   }, []);
@@ -35,11 +37,11 @@ export default function ConverterCard() {
     setDestinationCC(originCC);
   };
 
-  function amountValidation() {
-    return amount.length !== 0 && !isNaN(+amount);
+  function amountValidation(value : string) {
+    return value.length !== 0 && !isNaN(+value);
   }
 
-  async function fetchData() {
+  async function fetchData(body : string) {
     try {
       let response = await fetch(
         "https://v6.exchangerate-api.com/v6/a0fb2ec26c49b86c530024d6/latest/USD",
@@ -54,7 +56,7 @@ export default function ConverterCard() {
       const json = await response.json();
       const rates = json.conversion_rates;
 
-      const result = +amount * (rates[destinationCC] / rates[originCC]);
+      const result = +body * (rates[destinationCC] / rates[originCC]);
 
       let resultFixed = `${1 * +result.toFixed(7).replace(/\.0+$/, "")}`;
       resultFixed = resultFixed
@@ -76,14 +78,16 @@ export default function ConverterCard() {
   ) => {
     e.preventDefault();
     setLoading(true);
-    if (!amountValidation()) {
-      setError("please inter valid amount");
+    if (!amountValidation(amount)) {
+      setError("please enter valid amount");
       setResult("");
       setLoading(false);
       return;
+    }else {
+        setError("")
     }
 
-    const resultFixed = (await fetchData()) as string;
+    const resultFixed = (await fetchData(amount)) as string;
 
     setResult(resultFixed);
     setLoading(false);
@@ -94,18 +98,22 @@ export default function ConverterCard() {
   ) => {
     e.preventDefault();
 
-    setAmont(e.target.value);
+    const value = e.target.value;
+
+    setAmont(value);
     setLoading(true);
 
-    console.log(amountValidation());
-    if (!amountValidation()) {
-      setError("please inter valid amount");
+    console.log(amountValidation(value));
+    if (!amountValidation(value)) {
+      setError("please enter valid amount");
       setLoading(false);
       setResult("");
       return;
+    } else {
+        setError("")
     }
 
-    const resultFixed = (await fetchData()) as string;
+    const resultFixed = (await fetchData(value)) as string;
 
     setResult(resultFixed);
     setLoading(false);
@@ -124,7 +132,6 @@ export default function ConverterCard() {
           <input
             type="number"
             inputMode="numeric"
-            pattern="$/d+^"
             minLength={2}
             min={0}
             name="amount"
@@ -134,11 +141,11 @@ export default function ConverterCard() {
             value={amount}
             onChange={(e) => inputHandler(e)}
           />
-          <span className="  invisible  transition-all ease-in-out duration-100 peer-invalid:visible text-red-500 absolute -bottom-10 ">
+          {/* <span className="  invisible  transition-all ease-in-out duration-100 peer-invalid:visible text-red-500 absolute -bottom-10 ">
             Enter only positive number inputs...
-          </span>
+          </span> */}
           {error.length !== 0 && (
-            <span className="transition-all ease-in-out duration-100  text-red-500 absolute -bottom-10 ">
+            <span className="transition-all ease-in-out duration-100  text-red-500 absolute -bottom-10 whitespace-nowrap">
               {error}
             </span>
           )}
@@ -184,7 +191,7 @@ export default function ConverterCard() {
         </div>
       </form>
 
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full h-18">
         {loading ? (
           <i className=" size-8 text-text-2 animate-spin flex items-center justify-center ">
             <svg
@@ -224,10 +231,10 @@ export default function ConverterCard() {
         </button>
       </div>
 
-      <div className="flex flex-col items-start gap-1 text-sm text-slate-500 w-full pt-5 border-t">
+      {/* <div className="flex flex-col items-start gap-1 text-sm text-slate-500 w-full pt-5 border-t">
         <p className="">1 UAH = 0.03383 USD</p>
         <p className="">1 USD = 29.55874 UAH</p>
-      </div>
+      </div> */}
     </section>
   );
 }
