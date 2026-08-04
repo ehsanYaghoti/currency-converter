@@ -53,6 +53,13 @@ export default function ConverterCard() {
         },
       );
 
+      if(!response.ok){
+        setLoading(false)
+        setError("Some thing is wrong")
+      } else {
+        setError("")
+      }
+
       const json = await response.json();
       const rates = json.conversion_rates;
 
@@ -210,7 +217,7 @@ export default function ConverterCard() {
             </svg>
           </i>
         ) : (
-          result.length !== 0 && (
+          (result && result.length !== 0 )&& (
             <p className="flex flex-col items-start gap-0.5">
               <span className="text-base text-text-2">
                 {amount} {originCC.toUpperCase()} equals to
