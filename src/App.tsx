@@ -9,7 +9,7 @@ function App() {
       <main className="flex flex-col px-10 lg:px-36 py-10 gap-10 bg-background min-h-[calc(100vh-72px)]">
 
         <div className="flex flex-col items-start gap-3 text-white">
-            <h2 className="text-4xl font-normal max-w-80 leading-10 ">Exchange currency rates widget</h2>
+            <h2 className="text-4xl font-normal leading-10 ">Exchange currency rates widget</h2>
             <p className="text-sm font-light">Check live foreign currency exchange rates</p>
         </div>
         <ConverterCard />
