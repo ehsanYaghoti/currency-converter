@@ -2,7 +2,7 @@
 
 export default async function fetchExchangeRates(base: string) {
     let response = await fetch(
-        `https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_EXCHANGE_API_KEY}/latest/${base}`
+        `https://v6.exchangerate-api.com/v6/a0fb2ec26c49b86c530024d6/latest/${base}`
     );
 
 
