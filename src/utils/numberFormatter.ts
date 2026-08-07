@@ -3,11 +3,19 @@
 
 export default function numberFormatter(num: number) {
 
-    let resultFixed = `${1 * +num.toFixed(7).replace(/\.0+$/, "")}`;
-    resultFixed = resultFixed
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d)\.)/g, ",");
+    const formatted = num
+        .toFixed(7)
+        .replace(/\.?0+$/, "");
 
-    return resultFixed
+    const [integer, decimal] = formatted.split(".");
+
+    const integerWithCommas = integer.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+    );
+
+    return decimal
+        ? `${integerWithCommas}.${decimal}`
+        : integerWithCommas;
 
 }
